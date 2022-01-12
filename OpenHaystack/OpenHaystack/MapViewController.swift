@@ -72,7 +72,10 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
 
         self.mapView.removeAnnotations(self.mapView.annotations)
         for location in pastLocations ?? [] {
-            let coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+            
+            let after_calibration = CoordinateTransformation.WGS84_To_CGJ02(coordinate: location.location)
+            //let coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+            let coordinate = CLLocationCoordinate2DMake(after_calibration.coordinate.latitude, after_calibration.coordinate.longitude)
             let annotation = AccessoryHistoryAnnotation(coordinate: coordinate)
             self.mapView.addAnnotation(annotation)
         }
