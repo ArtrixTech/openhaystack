@@ -11,6 +11,7 @@ import Combine
 import Foundation
 import OSLog
 import SwiftUI
+import MapKit
 
 class AccessoryController: ObservableObject {
     @Published var accessories: [Accessory]
@@ -69,7 +70,8 @@ class AccessoryController: ObservableObject {
                     .sorted(by: { $0.timestamp ?? Date.distantPast > $1.timestamp ?? Date.distantPast })
                     .first
 
-                accessory.lastLocation = report?.location
+                //accessory.lastLocation = report?.location
+                accessory.lastLocation = CoordinateTransformation.WGS84_To_CGJ02(coordinate: report!.location)
                 accessory.locationTimestamp = report?.timestamp
                 accessory.locations = device.decryptedReports
             }
